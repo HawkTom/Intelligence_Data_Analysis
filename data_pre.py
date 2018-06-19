@@ -14,6 +14,8 @@ x_train = np.array(x_train)
 y_train = np.array(y_train, dtype=int)[:,np.newaxis]
 
 
+
+
 x_pre = []
 y_pre = []
 with open('dataset/test.data', 'r') as f:
@@ -33,6 +35,9 @@ x_pre_new = x_pre - x_mean
 
 # calculate the covariance of features
 x_var = np.cov(x_train, rowvar=0)
+x_std= np.std(x_train, axis=0)
+print(x_std)
+print(x_std**2)
 
 # calculate the eigen value and eigen vector of covariance matrix
 x_eig_val, x_eig_vec = np.linalg.eig(x_var)
@@ -41,7 +46,7 @@ x_eig_val, x_eig_vec = np.linalg.eig(x_var)
 eig_index = np.argsort(x_eig_val)
 
 # select the 2 eigen vector correspond to max 2 eigen value
-eig_select_index = eig_index[-1: -4: -1]
+eig_select_index = eig_index[-1: -3: -1]
 eigvec_select = x_eig_vec[:, eig_select_index]
 
 # reduce dimension by the eigen vector for train data

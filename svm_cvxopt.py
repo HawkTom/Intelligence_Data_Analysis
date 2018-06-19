@@ -71,13 +71,18 @@ class SVM(object):
             self.b -= np.sum(self.a * self.sv_y * K[ind[n],sv])
         self.b /= len(self.a)
 
-    def predict(self, X):
-        y_predict = np.zeros(len(X))
+    def project(self, X):
+        y_project = np.zeros(len(X))
         for i in range(len(X)):
             s = 0
             for a, sv_y, sv in zip(self.a, self.sv_y, self.sv):
                 s += a * sv_y * self.kernel(X[i], sv, self.sigma)
-            y_predict[i] = np.sign(s + self.b)
+            y_project[i] = s + self.b
+        return y_project
+
+
+    def predict(self, X):
+        y_predict = np.sign(self.project(X))
         return y_predict
 
 def result_plot(x, y, svm):
